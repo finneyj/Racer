@@ -73,6 +73,7 @@ public class GameArena
 
     // Lock used to reduce flicker when rendering of large numbers of objects.
     private ReentrantLock renderLock;
+    private boolean initialised;
 
 	/**
      * Constructor. Creates an instance of the GameArena class, and displays a window on the
@@ -99,6 +100,7 @@ public class GameArena
         this.arenaWidth = width;
         this.arenaHeight = height;
         this.objectCount = 0;
+        this.initialised = false;
 
         // Create a lock to reduce flicker on rendering
         renderLock = new ReentrantLock();
@@ -187,6 +189,9 @@ public class GameArena
 	 */
 	private void frameUpdate ()
     {
+        if (!this.initialised)
+            return;
+
         if (this.exiting)
         {
             addList.clear();
@@ -194,6 +199,7 @@ public class GameArena
             rectangles.clear();
             balls.clear();
             objectCount = 0;
+            initialised = false;
 
             root.getChildren().clear();
 
@@ -387,6 +393,7 @@ public class GameArena
 	 */
 	public void pause()
 	{
+        this.initialised = true;
         renderLock.unlock();
 
 		try { Thread.sleep(18); }
