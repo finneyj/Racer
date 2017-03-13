@@ -205,6 +205,10 @@ public class GameArena
             return;
         }
 
+        // Optimise for the case where we have no data to render
+        if(objectCount == 0)
+            return;
+
         // Remove any deleted objects from the scene.
         renderLock.lock();
 
